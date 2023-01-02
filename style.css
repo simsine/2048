@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 main {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Press Start 2P', cursive;
     font-size: 2rem;
 }
 
-article{
+.game-container{
     width: 100vw;
     height: 90vh;
     
@@ -14,10 +13,9 @@ article{
     align-items: center;
     gap: 5px;
 }
-article button{
-    text-align: center;
-    font-size: 50px;
-    
+.game-container button{
+    font-size: 30px;
+
     min-height: 125px;
     min-width: 125px;
 
