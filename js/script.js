@@ -15,5 +15,4 @@ function reset() {
     score = 0
     scoreDisplay.innerText = 0
     localStorage.clear()
-    console.log("hei")
 }
