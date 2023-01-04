@@ -10,7 +10,7 @@ class GameManager{
     }
     setupGame(){
         // Check if gameState localstorage key exists, 
-        if (localStorage.getItem("gameState") === null){
+        if (localStorage.getItem("gameState") !== null){
             this.gameState = JSON.parse(localStorage.getItem("gameState"))
         }else{
             this.gameState = [
