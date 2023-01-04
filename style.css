@@ -8,13 +8,16 @@ main {
     font-size: 1.0rem;
 }
 .game-container{
-    width: 400px;
+    width: 412px;
     margin: 0 auto;
+
     text-align: center;
 }
 .grid-container{
     height: 400px;
     width: 400px;
+
+    margin: 0 auto;
 
     display: flex;
     flex-wrap: wrap;
@@ -23,7 +26,7 @@ main {
     border:6px solid #bbada0;
 }
 .tile{
-    background-color: white;
+    background-color: #cdc1b5;
 
     width: 98px;
     height: 98px;
