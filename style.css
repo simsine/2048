@@ -11,7 +11,12 @@ main {
     width: 412px;
     margin: 0 auto;
 
-    text-align: center;
+    text-align: left;
+}
+.above-grid-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 .grid-container{
     height: 400px;
@@ -19,18 +24,20 @@ main {
 
     margin: 0 auto;
 
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+    justify-items: center;
 
-    background-color: #cdc1b5;
+    background-color: #bbada0;
     border:6px solid #bbada0;
 }
 .tile{
     background-color: #cdc1b5;
 
-    width: 98px;
-    height: 98px;
-    border: 1px solid #bbada0;
+    width: 95px;
+    height: 95px;
 
     display: flex;
     justify-content: center;

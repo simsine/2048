@@ -1,18 +1,21 @@
 class GameManager{
     constructor(gridSize, startingtiles){
+        // Initialize variables
         this.gridSize       = gridSize
-        this.gridContainer  = document.querySelector(".grid-container")
-
         this.startingtiles  = startingtiles
 
+        // Initialize document refrences
+        this.gridContainer  = document.querySelector(".grid-container")
+
+        //Initialize methods
         this.setupGame()
         this.listen()
     }
     setupGame(){
-        // Check if gameState localstorage key exists, 
+        // Check if gameState localstorage key exists,
         if (localStorage.getItem("gameState") !== null){
             this.gameState = JSON.parse(localStorage.getItem("gameState"))
-        }else{
+        }else{ // If not set to initial gameState
             this.gameState = [
                 [0,0,0,0],
                 [0,0,0,0],
@@ -22,7 +25,15 @@ class GameManager{
             localStorage.setItem("gameState", JSON.stringify(this.gameState))
         }
 
+        this.gameState = [
+            [2048,0,0,2048],
+            [0,0,0,0],
+            [0,0,0,0],
+            [2048,0,0,2048]
+        ]
+
         this.updateGridContainer()
+        this.updateScoreDisplay() //TODO
     }
     listen(){
         // Add keymap
@@ -70,6 +81,7 @@ class GameManager{
         }
 
         this.updateGridContainer()
+        this.updateScoreDisplay() //TODO
     }
     updateGridContainer(){
         this.gridContainer.innerHTML = ""
@@ -81,16 +93,16 @@ class GameManager{
                 tile.classList.add("tile")
                 let tileNumber = this.gameState[row][column]
                 if (tileNumber !== 0) {
-                    tile.classList.add(tileNumber)
+                    tile.classList.add("tile-"+ tileNumber.toString())
                     tile.innerHTML = tileNumber
                 }
                 this.gridContainer.appendChild(tile)
         }}
     }
     restart(){
-        // Reset points, localstorage, grid, 
+        //TODO: Reset points, localstorage, grid, 
     }
     saveGamestate(){
-        // Save gamState to localstorage
+        //TODO: Save gameState to localstorage
     }
 }
