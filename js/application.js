@@ -1,3 +1,3 @@
 window.onload = ()=>{
-    new GameManager(4)
+    GameManager = new GameManager(4, 2)
 }

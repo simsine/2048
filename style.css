@@ -5,15 +5,13 @@ body{
 }
 main {
     font-family: 'Press Start 2P', cursive;
-    /* font-size: 1.0rem; */
+    font-size: 1.0rem;
 }
-
 .game-container{
     width: 400px;
     margin: 0 auto;
     text-align: center;
 }
-
 .grid-container{
     height: 400px;
     width: 400px;
@@ -27,16 +25,15 @@ main {
 .tile{
     background-color: white;
 
-    width: 90px;
-    height: 90px;
-    border: 5px solid #bbada0;
+    width: 98px;
+    height: 98px;
+    border: 1px solid #bbada0;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: 21px;
-    /* font-weight: bold; */
 
     /* Make text unselectable */
     user-select: none; /* Standard */
@@ -50,62 +47,50 @@ main {
     background-color: #eee4da;
     color: #727371;
 }
-
 .tile-4 {
     background-color: #ece0ca;
     color: #727371;
 }
-
 .tile-8 {
     background-color: #f4b17a;
     color: white;
 }
-
 .tile-16{
     background-color: #f59575;
     color: white;
 }
-
 .tile-32{
     background-color: #f57c5f;
     color: white;
 }
-
 .tile-64{
     background-color: #f65d3b;
     color: white;
 }
-
 .tile-128{
     background-color: #edce71;
     color: white;
 }
-
 .tile-256{
     background-color: #edcc63;
     color: white;
 }
-
 .tile-512{
     background-color: #edc651;
     color: white;
 }
-
 .tile-1024{
     background-color: #eec744;
     color: white;
 }
-
 .tile-2048{
     background-color: #ecc230;
     color: white;
 }
-
 .tile-4096 {
     background-color: #fe3d3d;
     color: white;
 }
-
 .tile-8192 {
     background-color: #ff2020;
     color: white;
