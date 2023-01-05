@@ -7,8 +7,12 @@ main {
     font-family: 'Press Start 2P', cursive;
     font-size: 1.0rem;
 }
+main button{
+    background-color: #faf8ef !important;
+    font-size: 0.8rem;
+}
 .game-container{
-    width: 412px;
+    width: 500px;
     margin: 0 auto;
 
     text-align: left;
@@ -19,37 +23,35 @@ main {
     justify-content: space-around;
 }
 .grid-container{
-    height: 400px;
-    width: 400px;
+    width: 100%;
+    aspect-ratio: 1/1;
 
     margin: 0 auto;
 
     display: grid;
+    gap: 10px;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     align-items: center;
     justify-items: center;
 
     background-color: #bbada0;
-    border:6px solid #bbada0;
+    border: 10px solid #bbada0;
+    /* border-radius: 5px; */
 }
 .tile{
     background-color: #cdc1b5;
+    border-radius: inherit;
 
-    width: 95px;
-    height: 95px;
+    width: 100%;
+    height: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: 21px;
-
-    /* Make text unselectable */
-    user-select: none; /* Standard */
-    -webkit-user-select: none; /* Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
 }
 
 /* colored tiles */

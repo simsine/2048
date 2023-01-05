@@ -29,6 +29,8 @@ class GameManager{
 
         this.updateGridContainer()
         this.updateScoreDisplay() //TODO
+
+        // TODO: Add 
     }
     listen(){
         // Add keymap
@@ -44,14 +46,20 @@ class GameManager{
             "w": 0,          // W
             "d": 1,          // D
             "s": 2,          // S
-            "a": 3           // A
+            "a": 3,          // A
+
+            "r": "reset"
         };
         // Add key listener
         document.addEventListener("keyup", (event)=>{
             let mappedKey = map[event.key]
             if (mappedKey !== undefined) {
                 event.preventDefault()
-                this.makeMove(mappedKey)
+                if (mappedKey in [0,1,2,3]) {
+                    this.makeMove(mappedKey)
+                }else if (mappedKey == "reset"){
+                    this.restart()
+                }
             }
         })
     }
@@ -161,6 +169,14 @@ class GameManager{
     }
     restart(){
         //TODO: Reset points, localstorage, grid, 
+        this.gameState = [
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
+        ]
+        localStorage.setItem("gameState", JSON.stringify(this.gameState))
+        this.updateGridContainer()
     }
     saveGame(){
         //TODO: Save gameState to localstorage
