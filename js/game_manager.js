@@ -79,32 +79,32 @@ class GameManager{
                 break
                 case 1: // Right
                 console.log("right")
-                for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
-                    let array = this.gameState[rowNumber]
-                    array.reverse()
-                    array = slideArray(array, this.gridSize)
-                    array.reverse()
-                    this.gameState[rowNumber] = array
-                }
+                    for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
+                        let array = this.gameState[rowNumber]
+                        array.reverse()
+                        array = slideArray(array, this.gridSize)
+                        array.reverse()
+                        this.gameState[rowNumber] = array
+                    }
                 break
                 case 2: // Down
-                for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
-                    let array = this.gameState.map(value => value[columnNumber])
-                    array.reverse()
-                    array = slideArray(array, this.gridSize)
-                    array.reverse()
-                    for (let i = 0; i < array.length; i++) {
-                        this.gameState[i][columnNumber] = array[i]
+                    for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
+                        let array = this.gameState.map(value => value[columnNumber])
+                        array.reverse()
+                        array = slideArray(array, this.gridSize)
+                        array.reverse()
+                        for (let i = 0; i < array.length; i++) {
+                            this.gameState[i][columnNumber] = array[i]
+                        }
                     }
-                }
                 break
                 case 3: // Left
                 console.log("left")
-                for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
-                    let array = this.gameState[rowNumber]
-                    array = slideArray(array, this.gridSize)
-                    this.gameState[rowNumber] = array
-                }
+                    for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
+                        let array = this.gameState[rowNumber]
+                        array = slideArray(array, this.gridSize)
+                        this.gameState[rowNumber] = array
+                    }
                 break
                 
                 default:
