@@ -65,8 +65,8 @@ class GameManager{
         })
     }
     makeMove(direction){
-        // Make a change to the gamestate
-        //TODO: Make equal
+        // Make a change to the gamestate based on direction parameter
+        //TODO: Optimize
         switch (direction) {
             case 0: // Up
                 for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
@@ -108,7 +108,6 @@ class GameManager{
                 default:
                     break;
         }
-    
         this.addRandomTile()
 
         this.updateGridContainer()
@@ -148,12 +147,15 @@ class GameManager{
     addRandomTile(){
         let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
         let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
-        if (Math.random() < 0.5){
-            let tileNum = 2
-        }else{
-            let tileNum = 4
+
+        let tileNumber = 0
+        if (Math.random()< 0.75) {
+            tileNumber = 2
+        } else {
+            tileNumber = 4
         }
-        this.gameState[tileCoords[0]][tileCoords[1]] = tileNum
+
+        this.gameState[tileCoords[0]][tileCoords[1]] = tileNumber
 
         function getAllEmptytiles(gameState, gridSize) {
             let tiles = []
