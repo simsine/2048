@@ -7,9 +7,15 @@ main {
     font-family: 'Press Start 2P', cursive;
     font-size: 1.0rem;
 }
-main button{
-    background-color: #faf8ef !important;
-    font-size: 0.8rem;
+/*! */
+.inherit{
+    background-color: inherit;
+    color: inherit;
+    font-size: 1.0rem;
+}
+.inherit:hover{
+    background-color: inherit;
+    color: inherit;
 }
 .game-container{
     width: 500px;

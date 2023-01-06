@@ -2,7 +2,7 @@ class GameManager{
     constructor(gridSize, startingtiles){
         // Initialize variables
         this.gridSize       = gridSize
-        this.startingtiles  = startingtiles
+        this.startingTiles  = startingtiles
 
         // Initialize document refrences
         this.highScoreDisplay = document.querySelector(".highscore-display")
@@ -26,11 +26,12 @@ class GameManager{
             ]
             localStorage.setItem("gameState", JSON.stringify(this.gameState))
         }
-
+        
+        for (let i = 0; i < this.startingTiles; i++) {
+            this.addRandomTile()
+        }
         this.updateGridContainer()
         this.updateScoreDisplay() //TODO
-
-        // TODO: Add 
     }
     listen(){
         // Add keymap
@@ -55,7 +56,7 @@ class GameManager{
             let mappedKey = map[event.key]
             if (mappedKey !== undefined) {
                 event.preventDefault()
-                if (mappedKey in [0,1,2,3]) {
+                if (mappedKey in [0,1,2,3]) { //? ew
                     this.makeMove(mappedKey)
                 }else if (mappedKey == "reset"){
                     this.restart()
@@ -65,7 +66,6 @@ class GameManager{
     }
     makeMove(direction){
         // Make a change to the gamestate
-        
         //TODO: Make equal
         switch (direction) {
             case 0: // Up
@@ -78,7 +78,6 @@ class GameManager{
                 }
                 break
                 case 1: // Right
-                console.log("right")
                     for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
                         let array = this.gameState[rowNumber]
                         array.reverse()
@@ -99,7 +98,6 @@ class GameManager{
                     }
                 break
                 case 3: // Left
-                console.log("left")
                     for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
                         let array = this.gameState[rowNumber]
                         array = slideArray(array, this.gridSize)
@@ -110,12 +108,9 @@ class GameManager{
                 default:
                     break;
         }
+    
+        this.addRandomTile()
 
-        //! TEMP
-        if (this.gameState[3][3] === 0) {
-            this.gameState[3][3] = 2
-        }
-        
         this.updateGridContainer()
         this.updateScoreDisplay() //TODO
         this.saveGame()
@@ -124,10 +119,10 @@ class GameManager{
         function slideArray(array, gridSize) {
             array = removeZeroes(array)
             for (let i = 0; i < array.length - 1; i++) {
-                if (array[i] == array[i+1]){
-                    array[i]  *= 2
-                    array[i+1] = 0
-                    // score += array[i]
+                if (array[i]    == array[i+1]){
+                    array[i]    *= 2
+                    array[i+1]  = 0
+                    // this.score += array[i]
                 }
             }
             array = removeZeroes(array)
@@ -138,6 +133,8 @@ class GameManager{
         }
         function removeZeroes(row) {
             return row.filter(num => num != 0)
+            
+            
         }
         //? Unnecessary
         // function getRow(rowNumber){
@@ -148,11 +145,26 @@ class GameManager{
         //     return row
         // }
     }
+    addRandomTile(){
+        let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
+        let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
+        this.gameState[tileCoords[0]][tileCoords[1]] = 2
 
+        function getAllEmptytiles(gameState, gridSize) {
+            let tiles = []
+            for (let row = 0; row < gridSize; row++) {
+            for (let column = 0; column < gridSize; column++) {
+                if (gameState[row][column] == 0){
+                    tiles.push([row,column])
+                }
+            }}
+            return tiles
+        }
+    }
     updateGridContainer(){
         this.gridContainer.innerHTML = ""
         for (let row = 0; row < this.gridSize; row++) {
-            for (let column = 0; column < this.gridSize; column++) {
+        for (let column = 0; column < this.gridSize; column++) {
                 let tile = document.createElement("div")
                 tile.id = row.toString() + "-" + column.toString() 
                 tile.classList.add("tile")
@@ -177,10 +189,10 @@ class GameManager{
         ]
         localStorage.setItem("gameState", JSON.stringify(this.gameState))
         this.updateGridContainer()
+        this.updateScoreDisplay()
     }
     saveGame(){
         //TODO: Save gameState to localstorage
-
         localStorage.setItem("gameState", JSON.stringify(this.gameState))
     }
 }
