@@ -148,7 +148,12 @@ class GameManager{
     addRandomTile(){
         let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
         let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
-        this.gameState[tileCoords[0]][tileCoords[1]] = 2
+        if (Math.random() < 0.5){
+            let tileNum = 2
+        }else{
+            let tileNum = 4
+        }
+        this.gameState[tileCoords[0]][tileCoords[1]] = tileNum
 
         function getAllEmptytiles(gameState, gridSize) {
             let tiles = []
