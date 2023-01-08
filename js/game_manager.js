@@ -16,8 +16,20 @@ class GameManager{
     setupGame(){
         // Check if gameState localstorage key exists,
         if ("gameState" in localStorage){
+            this.previousGameState = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
             this.gameState = JSON.parse(localStorage.getItem("gameState"))
         }else{ // If not set to initial gameState
+            this.previousGameState = [
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0],
+                [0,0,0,0]
+            ]
             this.gameState = [
                 [0,0,0,0],
                 [0,0,0,0],
@@ -26,12 +38,13 @@ class GameManager{
             ]
             localStorage.setItem("gameState", JSON.stringify(this.gameState))
         }
+        this.updateGridContainer()
         
         for (let i = 0; i < this.startingTiles; i++) {
             this.addRandomTile()
         }
         this.updateGridContainer()
-        this.updateScoreDisplay() //TODO
+        // this.updateScoreDisplay()
     }
     listen(){
         // Add keymap
@@ -65,6 +78,7 @@ class GameManager{
         })
     }
     makeMove(direction){
+        this.previousGameState = this.gameState
         // Make a change to the gamestate based on direction parameter
         //TODO: Optimize
         switch (direction) {
@@ -108,10 +122,12 @@ class GameManager{
                 default:
                     break;
         }
+        //TODO Don't add tile if move is not valid
+        //TODO invalid move example: [0][3] = 4 and [1][3] = 2 and direction = 0
         this.addRandomTile()
 
         this.updateGridContainer()
-        this.updateScoreDisplay() //TODO
+        //this.updateScoreDisplay()
         this.saveGame()
         
         // makeMove functions
@@ -132,8 +148,6 @@ class GameManager{
         }
         function removeZeroes(row) {
             return row.filter(num => num != 0)
-            
-            
         }
         //? Unnecessary
         // function getRow(rowNumber){
@@ -148,13 +162,13 @@ class GameManager{
         let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
         let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
 
-        let randomTileNumber = () => {
-            if (Math.random() < 0.75) {
-                return 2
-            } 
-            return 4
+        let randomTileNumber = 0
+        if (Math.random() < 0.75) {
+            randomTileNumber = 2
+        } else{
+            randomTileNumber = 4
         }
-        this.gameState[tileCoords[0]][tileCoords[1]] = randomTileNumber()
+        this.gameState[tileCoords[0]][tileCoords[1]] = randomTileNumber
 
         function getAllEmptytiles(gameState, gridSize) {
             let tiles = []
@@ -178,6 +192,9 @@ class GameManager{
                 if (tileNumber !== 0) {
                     tile.classList.add("tile-"+ tileNumber.toString())
                     tile.innerHTML = tileNumber
+                    if (this.gameState[row][column] != this.previousGameState[row][column]) {
+                        tile.classList.add("new-tile")
+                    }
                 }
             this.gridContainer.appendChild(tile)
         }}
@@ -193,9 +210,15 @@ class GameManager{
             [0,0,0,0],
             [0,0,0,0]
         ]
+        this.previousGameState = [
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0],
+            [0,0,0,0]
+        ]
         localStorage.setItem("gameState", JSON.stringify(this.gameState))
-        this.updateGridContainer()
-        this.updateScoreDisplay()
+
+        this.setupGame()
     }
     saveGame(){
         //TODO: Save gameState to localstorage
