@@ -16,20 +16,8 @@ class GameManager{
     setupGame(){
         // Check if gameState localstorage key exists,
         if ("gameState" in localStorage){
-            this.previousGameState = [
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0]
-            ]
             this.gameState = JSON.parse(localStorage.getItem("gameState"))
         }else{ // If not set to initial gameState
-            this.previousGameState = [
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0],
-                [0,0,0,0]
-            ]
             this.gameState = [
                 [0,0,0,0],
                 [0,0,0,0],
@@ -49,27 +37,27 @@ class GameManager{
     listen(){
         // Add keymap
         const map = {
-            "ArrowUp": 0,    // Up
-            "ArrowRight": 1, // Right
-            "ArrowDown": 2,  // Down
-            "ArrowLeft": 3,  // Left
-            "k": 0,          // Vim up
-            "l": 1,          // Vim right
-            "j": 2,          // Vim down
-            "h": 3,          // Vim left
-            "w": 0,          // W
-            "d": 1,          // D
-            "s": 2,          // S
-            "a": 3,          // A
+            "ArrowUp": "up",       // Up
+            "ArrowRight": "right", // Right
+            "ArrowDown": "down",   // Down
+            "ArrowLeft": "left",   // Left
+            "k": "up",             // Vim up
+            "l": "right",          // Vim right
+            "j": "down",           // Vim down
+            "h": "left",           // Vim left
+            "w": "up",             // W
+            "d": "right",          // D
+            "s": "down",           // S
+            "a": "left",           // A
 
-            "r": "reset"
+            "r": "reset"           // R
         };
         // Add key listener
         document.addEventListener("keyup", (event)=>{
             let mappedKey = map[event.key]
             if (mappedKey !== undefined) {
                 event.preventDefault()
-                if (mappedKey in [0,1,2,3]) { //? ew
+                if (["up","right","down","left"].includes(mappedKey)) {
                     this.makeMove(mappedKey)
                 }else if (mappedKey == "reset"){
                     this.restart()
@@ -78,49 +66,45 @@ class GameManager{
         })
     }
     makeMove(direction){
-        this.previousGameState = this.gameState
-        // Make a change to the gamestate based on direction parameter
-        //TODO: Optimize
-        switch (direction) {
-            case 0: // Up
-                for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
-                    let array = this.gameState.map(value => value[columnNumber])
-                    array = slideArray(array, this.gridSize)
-                    for (let i = 0; i < array.length; i++) {
-                        this.gameState[i][columnNumber] = array[i]
-                    }
+        switch (direction) {    //TODO: Optimize
+        case "up":
+            for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
+                let array = this.gameState.map(value => value[columnNumber])
+                array = slideArray(array, this.gridSize)
+                for (let i = 0; i < array.length; i++) {
+                    this.gameState[i][columnNumber] = array[i]
                 }
-                break
-                case 1: // Right
-                    for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
-                        let array = this.gameState[rowNumber]
-                        array.reverse()
-                        array = slideArray(array, this.gridSize)
-                        array.reverse()
-                        this.gameState[rowNumber] = array
-                    }
-                break
-                case 2: // Down
-                    for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
-                        let array = this.gameState.map(value => value[columnNumber])
-                        array.reverse()
-                        array = slideArray(array, this.gridSize)
-                        array.reverse()
-                        for (let i = 0; i < array.length; i++) {
-                            this.gameState[i][columnNumber] = array[i]
-                        }
-                    }
-                break
-                case 3: // Left
-                    for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
-                        let array = this.gameState[rowNumber]
-                        array = slideArray(array, this.gridSize)
-                        this.gameState[rowNumber] = array
-                    }
-                break
-                
-                default:
-                    break;
+            }
+            break
+        case "right":
+            for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
+                let array = this.gameState[rowNumber]
+                array.reverse()
+                array = slideArray(array, this.gridSize)
+                array.reverse()
+                this.gameState[rowNumber] = array
+            }
+            break
+        case "down":
+            for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
+                let array = this.gameState.map(value => value[columnNumber])
+                array.reverse()
+                array = slideArray(array, this.gridSize)
+                array.reverse()
+                for (let i = 0; i < array.length; i++) {
+                    this.gameState[i][columnNumber] = array[i]
+                }
+            }
+            break
+        case "left":
+            for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
+                let array = this.gameState[rowNumber]
+                array = slideArray(array, this.gridSize)
+                this.gameState[rowNumber] = array
+            }
+            break
+        default:
+            break;
         }
         //TODO Don't add tile if move is not valid
         //TODO invalid move example: [0][3] = 4 and [1][3] = 2 and direction = 0
@@ -146,8 +130,8 @@ class GameManager{
             }
             return array
         }
-        function removeZeroes(row) {
-            return row.filter(num => num != 0)
+        function removeZeroes(array) {
+            return array.filter(num => num != 0)
         }
         //? Unnecessary
         // function getRow(rowNumber){
@@ -162,12 +146,8 @@ class GameManager{
         let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
         let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
 
-        let randomTileNumber = 0
-        if (Math.random() < 0.75) {
-            randomTileNumber = 2
-        } else{
-            randomTileNumber = 4
-        }
+        let randomTileNumber = Math.random() < 0.9 ? 2 : 4
+
         this.gameState[tileCoords[0]][tileCoords[1]] = randomTileNumber
 
         function getAllEmptytiles(gameState, gridSize) {
@@ -192,9 +172,6 @@ class GameManager{
                 if (tileNumber !== 0) {
                     tile.classList.add("tile-"+ tileNumber.toString())
                     tile.innerHTML = tileNumber
-                    if (this.gameState[row][column] != this.previousGameState[row][column]) {
-                        tile.classList.add("new-tile")
-                    }
                 }
             this.gridContainer.appendChild(tile)
         }}
@@ -205,12 +182,6 @@ class GameManager{
     restart(){
         //TODO: Reset points, localstorage, grid, 
         this.gameState = [
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]
-        ]
-        this.previousGameState = [
             [0,0,0,0],
             [0,0,0,0],
             [0,0,0,0],

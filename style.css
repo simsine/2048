@@ -62,12 +62,10 @@ main {
 .new-tile{
 animation: popIn 0.5s forwards;
 }
-
 @keyframes popIn {
     from {transform: scale(75%);}
     to {transform: scale(100%);}
 }
-
 /* colored tiles */
 .tile-2 {
     background-color: #eee4da;
