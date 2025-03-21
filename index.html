@@ -9,31 +9,22 @@
     
     <link rel="stylesheet" href="style.css">
     <title>2048</title>
+
+    <script defer src="game_manager.js"></script>
 </head>
-<body style='margin: 0px;'>
-<div style='padding: 10px;'>
-    <a href='..'>Trykk her for å gå tilbake</a>
-</div>
-<!--Code goes here-->
-
-<main>
-    <div class="game-container">
-        <div class="above-grid-container">
-            <h1>2048</h1>
-            <div class="scores-container">
-                <h3>Best:<span class="highscore-display">0</span></h2>
-                <h3>Score:<span class="score-display">0</span></h2>
+<body>
+    <main>
+        <div class="game-container">
+            <div class="above-grid-container">
+                <h1>2048</h1>
+                <div class="scores-container">
+                    <h3>Best:<span class="highscore-display">0</span></h2>
+                    <h3>Score:<span class="score-display">0</span></h2>
+                </div>
+                <div class="inherit nes-btn" onclick="gm.restart()">New Game</div>
             </div>
-            <div class="inherit nes-btn" onclick="GameManager.restart()">New Game</div>
+            <div class="grid-container"></div>
         </div>
-        <div class="grid-container"></div>
-    </div>
-</main>
-
-<!--Code goes here-->
-
-<script src="./js/game_manager.js"></script>
-<script src="./js/application.js"></script>
-
+    </main>
 </body>
 </html>

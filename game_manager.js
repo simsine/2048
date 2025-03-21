@@ -20,6 +20,7 @@ class GameManager {
 		this.setupNewGame()
 		this.listen()
 	}
+
 	setupNewGame() {
 		// Check if gameState localstorage key exists,
 		if ("gameState" in localStorage) {
@@ -68,14 +69,17 @@ class GameManager {
 			}
 		})
 	}
+
+	isValidMove(direction) {
+
+	}
+
 	makeMove(direction) {
-		switch (
-			direction //TODO: Optimize
-		) {
+		switch (direction) {
 			case "up":
 				for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
 					let array = this.gameState.map((value) => value[columnNumber])
-					array = slideArray(array, this.gridSize)
+					array = this.slideArray(array, this.gridSize)
 					for (let i = 0; i < array.length; i++) {
 						this.gameState[i][columnNumber] = array[i]
 					}
@@ -85,7 +89,7 @@ class GameManager {
 				for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
 					let array = this.gameState[rowNumber]
 					array.reverse()
-					array = slideArray(array, this.gridSize)
+					array = this.slideArray(array, this.gridSize)
 					array.reverse()
 					this.gameState[rowNumber] = array
 				}
@@ -94,7 +98,7 @@ class GameManager {
 				for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
 					let array = this.gameState.map((value) => value[columnNumber])
 					array.reverse()
-					array = slideArray(array, this.gridSize)
+					array = this.slideArray(array, this.gridSize)
 					array.reverse()
 					for (let i = 0; i < array.length; i++) {
 						this.gameState[i][columnNumber] = array[i]
@@ -104,7 +108,7 @@ class GameManager {
 			case "left":
 				for (let rowNumber = 0; rowNumber < this.gridSize; rowNumber++) {
 					let array = this.gameState[rowNumber]
-					array = slideArray(array, this.gridSize)
+					array = this.slideArray(array, this.gridSize)
 					this.gameState[rowNumber] = array
 				}
 				break
@@ -118,34 +122,27 @@ class GameManager {
 		this.updateGridContainer()
 		//this.updateScoreDisplay()
 		this.saveGame()
-
-		// makeMove functions
-		function slideArray(array, gridSize) {
-			array = removeZeroes(array)
-			for (let i = 0; i < array.length - 1; i++) {
-				if (array[i] == array[i + 1]) {
-					array[i] *= 2
-					array[i + 1] = 0
-				}
-			}
-			array = removeZeroes(array)
-			while (array.length < gridSize) {
-				array.push(0)
-			}
-			return array
-		}
-		function removeZeroes(array) {
-			return array.filter((num) => num != 0)
-		}
-		//? Unnecessary
-		// function getRow(rowNumber){
-		//     let row = []
-		//     for (let columnNumber = 0; columnNumber < this.gridSize; columnNumber++) {
-		//         row.push(this.gameState[rowNumber][columnNumber])
-		//     }
-		//     return row
-		// }
 	}
+
+	slideArray(array) {
+		array = this.removeZeroes(array)
+		for (let i = 0; i < array.length - 1; i++) {
+			if (array[i] == array[i + 1]) {
+				array[i] *= 2
+				array[i + 1] = 0
+			}
+		}
+		array = this.removeZeroes(array)
+		while (array.length < this.gridSize) {
+			array.push(0)
+		}
+		return array
+	}
+
+	removeZeroes(array) {
+		return array.filter((num) => num != 0)
+	}
+
 	addRandomTile() {
 		let emptyTiles = getAllEmptytiles(this.gameState, this.gridSize)
 		let tileCoords = emptyTiles[Math.floor(Math.random() * emptyTiles.length)]
@@ -166,6 +163,7 @@ class GameManager {
 			return tiles
 		}
 	}
+
 	updateGridContainer() {
 		this.gridContainer.innerHTML = ""
 		for (let row = 0; row < this.gridSize; row++) {
@@ -182,18 +180,21 @@ class GameManager {
 			}
 		}
 	}
+
 	updateScoreDisplay() {
 		//TODO: Add scores in general
 	}
+
 	restart() {
-		//TODO: Reset points, localstorage, grid,
 		this.gameState = this.emptyGameState
 		localStorage.setItem("gameState", JSON.stringify(this.gameState))
 
 		this.setupNewGame()
 	}
+
 	saveGame() {
-		//TODO: Save gameState to localstorage
 		localStorage.setItem("gameState", JSON.stringify(this.gameState))
 	}
 }
+
+let gm = new GameManager(4,2)
